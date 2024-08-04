@@ -51,10 +51,14 @@ class AsyncLoad {
   // Get token data for a given Token ID
   async getTokenData (tokenId) {
     const tokenData = await this.wallet.getTokenData(tokenId)
+    // console.log('getTokenData() tokenData: ', tokenData)
 
     // Convert the IPFS CIDs into actual data.
-    tokenData.immutableData = await this.getIpfsData(tokenData.immutableData)
-    tokenData.mutableData = await this.getIpfsData(tokenData.mutableData)
+    if(tokenData.immutableData)
+      tokenData.immutableData = await this.getIpfsData(tokenData.immutableData)
+
+    if(tokenData.mutableData)
+      tokenData.mutableData = await this.getIpfsData(tokenData.mutableData)
 
     return tokenData
   }
@@ -77,7 +81,8 @@ class AsyncLoad {
   async getIpfsData (ipfsUri) {
     const cid = ipfsUri.slice(7)
 
-    const downloadUrl = `https://${cid}.ipfs.dweb.link/data.json`
+    // const downloadUrl = `https://${cid}.ipfs.dweb.link/data.json`
+    const downloadUrl = `https://pin.fullstack.cash/download/${cid}`
 
     const response = await axios.get(downloadUrl)
     const data = response.data
@@ -111,6 +116,29 @@ class AsyncLoad {
       ]
 
       return defaultOptions
+    }
+  }
+
+  // Get info on the NFT for this site.
+  async getNftInfo() {
+    try {
+      const groupTokenId = '2a9566022a38db3ba6380b352319de75a6705a5986e580fda174b97bb6d36e98'
+
+      const groupTokenData = await this.getTokenData(groupTokenId)
+      console.log(`Data for Group token ${groupTokenId}: ${JSON.stringify(groupTokenData, null, 2)}`)
+
+      const nfts = groupTokenData.genesisData.nfts
+
+      for(let i=0; i < nfts.length; i++) {
+        const thisNft = nfts[i]
+
+        const nftData = await this.getTokenData(thisNft)
+        console.log(`Data for NFT ${thisNft}: ${JSON.stringify(nftData, null, 2)}`)
+      }
+
+    } catch(err) {
+      console.error('Error in getNftInfo(): ', err)
+      throw err
     }
   }
 }

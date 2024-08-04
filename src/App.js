@@ -111,6 +111,11 @@ function App (props) {
           const walletTemp = await asyncLoad.initWallet(serverUrl)
           setWallet(walletTemp)
 
+          addToModal('Getting NFT Info', appData)
+          console.log(`Getting NFT Info`)
+
+          await asyncLoad.getNftInfo()
+
           // Update state
           setShowStartModal(false)
           setDenyClose(false)
