@@ -39,6 +39,7 @@ function App (props) {
   const [menuState, setMenuState] = useState(0)
   const [wallet, setWallet] = useState(false)
   const [servers, setServers] = useState(defaultServerOptions)
+  const [allNfts, setAllNfts] = useState([])
 
   // Startup state
   // When the page is loaded, it goes through a series of async network calls
@@ -71,6 +72,8 @@ function App (props) {
     setAsyncInitFinished,
     asyncInitSucceeded,
     setAsyncInitSucceeded,
+    allNfts,
+    setAllNfts,
     modalBody,
     setModalBody,
     hideSpinner,
@@ -112,9 +115,11 @@ function App (props) {
           setWallet(walletTemp)
 
           addToModal('Getting NFT Info', appData)
-          console.log(`Getting NFT Info`)
+          console.log('Getting NFT Info')
 
-          await asyncLoad.getNftInfo()
+          const nfts = await asyncLoad.getNftInfo()
+          console.log('App.js useEffect() nfts: ', nfts)
+          setAllNfts(nfts)
 
           // Update state
           setShowStartModal(false)
@@ -124,6 +129,7 @@ function App (props) {
           setAsyncInitFinished(true)
           setAsyncInitSucceeded(true)
           console.log('App.js useEffect() startup finished successfully')
+          console.log('App.js useEffect() allNfts: ', allNfts)
         } catch (err) {
           const errModalBody = [
             `Error: ${err.message}`,

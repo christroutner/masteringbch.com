@@ -10,10 +10,11 @@
 import React from 'react'
 
 // Local libraries
-import GetBalance from '../balance'
-import Placeholder2 from '../placeholder2'
-import Placeholder3 from '../placeholder3'
-import ServerSelectView from '../servers/select-server-view'
+// import GetBalance from '../balance'
+// import Placeholder2 from '../placeholder2'
+// import Placeholder3 from '../placeholder3'
+// import ServerSelectView from '../servers/select-server-view'
+import ShowNfts from '../nfts'
 
 function AppBody (props) {
   // Dependency injection through props
@@ -24,20 +25,22 @@ function AppBody (props) {
   function chooseView (menuState) {
     // console.log(`chooseView() menuState: ${menuState}`)
 
-    switch (menuState) {
-      case 0:
-        return (<GetBalance wallet={appData.wallet} />)
-      case 1:
-        return (<Placeholder2 />)
-      case 2:
-        return (<Placeholder3 />)
+    return (<ShowNfts appData={appData} />)
 
-        // Special Views
-      case 100:
-        return (<ServerSelectView appData={appData} />)
-      default:
-        return (<GetBalance wallet={appData.wallet} />)
-    }
+    // switch (menuState) {
+    //   case 0:
+    //     return (<GetBalance wallet={appData.wallet} />)
+    //   case 1:
+    //     return (<Placeholder2 appData={appData} />)
+    //   case 2:
+    //     return (<Placeholder3 />)
+    //
+    //     // Special Views
+    //   case 100:
+    //     return (<ServerSelectView appData={appData} />)
+    //   default:
+    //     return (<GetBalance wallet={appData.wallet} />)
+    // }
   }
 
   return (
