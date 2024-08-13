@@ -22,11 +22,11 @@ function TokenCard (props) {
               links.youtubeEmbed
                 ? (
                   <iframe
-                    width='800'
+                    width='300'
                     src='https://www.youtube.com/embed/RFPIjuypjh4'
                     title={props.token.name}
                     frameborder='0'
-                    allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                    allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
                     referrerpolicy='strict-origin-when-cross-origin' allowfullscreen
                   />
                   )
