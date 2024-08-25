@@ -17,70 +17,74 @@ function ShowNfts (props) {
   const [tokenCards, setTokenCards] = useState([])
   const [isFirstCall, setIsFirstCall] = useState(true)
 
-  useEffect(() => {
-    console.log('useEffect() called. appData: ', appData)
-    console.log('allNfts: ', allNfts)
+  // useEffect(() => {
+  //   console.log('useEffect() called. appData: ', appData)
+  //   console.log('allNfts: ', allNfts)
+  //
+  //   async function asyncEffect () {
+  //     if (isFirstCall) {
+  //       setIsFirstCall(false)
+  //
+  //       const tokenCardAry = []
+  //       const allNftData = []
+  //
+  //       // for (let i = 0; i < allNfts.length; i++) {
+  //       for (let i = 0; i < 1; i++) {
+  //         const thisNft = allNfts[i]
+  //         const nftData = await wallet.getTokenData(thisNft)
+  //         // console.log('nftData: ', nftData)
+  //
+  //         // Get the mutable data if it exists in the token data.
+  //         let mutableData = null
+  //         if (nftData.mutableData) {
+  //           mutableData = await getIpfsData(nftData.mutableData)
+  //           // console.log('mutableData: ', mutableData)
+  //         }
+  //
+  //         // Get the immutable data if it exists in the token data.
+  //         let immutableData = null
+  //         if (nftData.immutableData) {
+  //           immutableData = await getIpfsData(nftData.immutableData)
+  //           // console.log('immutableData: ', immutableData)
+  //         }
+  //
+  //         const links = mutableData.fullSizedUrl ? mutableData.fullSizedUrl : []
+  //         console.log('links: ', links)
+  //
+  //         nftData.mutableDataUri = nftData.mutableData
+  //         nftData.immutableDataUri = nftData.immutableData
+  //         nftData.mutableData = mutableData
+  //         nftData.immutableData = immutableData
+  //         console.log('Updated nftData: ', nftData)
+  //
+  //         allNftData.push(nftData)
+  //         setNftData(allNftData)
+  //
+  //         const propData = {
+  //           token: {
+  //             ticker: nftData.genesisData.ticker,
+  //             name: nftData.genesisData.name,
+  //             icon: (<img alt='token-icon' src={mutableData.tokenIcon} style={{ width: '300px' }} />),
+  //             links
+  //           }
+  //         }
+  //
+  //         tokenCardAry.push(NftCard(propData))
+  //       }
+  //
+  //       setTokenCards(tokenCardAry)
+  //     }
+  //   }
+  //
+  //   if (Array.isArray(allNfts) && allNfts.length) {
+  //     asyncEffect()
+  //   } else {
+  //     console.error('allNfts is empty. Can not load NFT data.')
+  //   }
+  // })
 
-    async function asyncEffect () {
-      if (isFirstCall) {
-        setIsFirstCall(false)
-
-        const tokenCardAry = []
-        const allNftData = []
-
-        for (let i = 0; i < allNfts.length; i++) {
-          const thisNft = allNfts[i]
-          const nftData = await wallet.getTokenData(thisNft)
-          // console.log('nftData: ', nftData)
-
-          // Get the mutable data if it exists in the token data.
-          let mutableData = null
-          if (nftData.mutableData) {
-            mutableData = await getIpfsData(nftData.mutableData)
-            // console.log('mutableData: ', mutableData)
-          }
-
-          // Get the immutable data if it exists in the token data.
-          let immutableData = null
-          if (nftData.immutableData) {
-            immutableData = await getIpfsData(nftData.immutableData)
-            // console.log('immutableData: ', immutableData)
-          }
-
-          const links = mutableData.fullSizedUrl ? mutableData.fullSizedUrl : []
-          console.log('links: ', links)
-
-          nftData.mutableDataUri = nftData.mutableData
-          nftData.immutableDataUri = nftData.immutableData
-          nftData.mutableData = mutableData
-          nftData.immutableData = immutableData
-          console.log('Updated nftData: ', nftData)
-
-          allNftData.push(nftData)
-          setNftData(allNftData)
-
-          const propData = {
-            token: {
-              ticker: nftData.genesisData.ticker,
-              name: nftData.genesisData.name,
-              icon: (<img alt='token-icon' src={mutableData.tokenIcon} style={{ width: '300px' }} />),
-              links
-            }
-          }
-
-          tokenCardAry.push(NftCard(propData))
-        }
-
-        setTokenCards(tokenCardAry)
-      }
-    }
-
-    if (Array.isArray(allNfts) && allNfts.length) {
-      asyncEffect()
-    } else {
-      console.error('allNfts is empty. Can not load NFT data.')
-    }
-  })
+  const videoId = "ybwuiP6v7hk";
+  const videoTitle = "[전인혁작곡] 야다(Yada) - 약속 (2019 ver)";
 
   return (
     <>
@@ -99,12 +103,16 @@ function ShowNfts (props) {
         </Row>
 
         <Row>
-          {tokenCards}
+          <NftCard videoId={videoId} videoTitle={videoTitle} />
         </Row>
       </Container>
     </>
   )
 }
+
+// <Row>
+//   {tokenCards}
+// </Row>
 
 // Retrieve IPFS data from a PSFFPP node.
 async function getIpfsData (ipfsUri) {

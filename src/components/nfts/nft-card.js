@@ -1,87 +1,62 @@
-/*
-  Generates a visual card to display information about an individual NFT.
-*/
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
-// Global npm libraries
-import React from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
+const VideoIframe = (props) => {
+  const { videoId, autoPlay, title } = props;
+  const videoURL = `https://www.youtube.com/embed/${videoId}${
+    autoPlay ? "?autoplay=1" : ""
+  }`;
+  const iframeRef = useRef(null);
+  const defaultHeight = 495;
+  const [videoHeight, setVideoHeight] = useState(
+    iframeRef.current ? iframeRef.current.offsetWidth * 0.5625 : defaultHeight
+  );
 
-function TokenCard (props) {
-  console.log('props: ', props)
-  const { links } = props.token
+  const handleChangeVideoWidth = useCallback(() => {
+    const ratio =
+      window.innerWidth > 990
+        ? 1.0
+        : window.innerWidth > 522
+        ? 1.2
+        : window.innerWidth > 400
+        ? 1.45
+        : 1.85;
+    const height = iframeRef.current
+      ? iframeRef.current.offsetWidth * 0.5625
+      : defaultHeight;
+    return setVideoHeight(Math.floor(height * ratio));
+  }, []);
 
-  const LinkList = makeLinkList(links)
-  // console.log('LinkList: ', LinkList)
+  useEffect(() => {
+    window.addEventListener("resize", handleChangeVideoWidth);
+    const ratio =
+      window.innerWidth > 990
+        ? 1.0
+        : window.innerWidth > 522
+        ? 1.2
+        : window.innerWidth > 400
+        ? 1.45
+        : 1.85;
+    const height = iframeRef.current
+      ? iframeRef.current.offsetWidth * 0.5625
+      : defaultHeight;
+    setVideoHeight(Math.floor(height * ratio));
+    return function cleanup() {
+      window.removeEventListener("resize", handleChangeVideoWidth);
+    };
+  }, [videoHeight, handleChangeVideoWidth]);
 
   return (
-    <>
-      <Col xs={12} sm={6} lg={4} style={{ padding: '25px' }}>
-        <Card>
-          <Card.Body style={{ textAlign: 'center' }}>
-            {
-              links.youtubeEmbed
-                ? (
-                  <iframe
-                    width='300'
-                    src='https://www.youtube.com/embed/RFPIjuypjh4'
-                    title={props.token.name}
-                    frameborder='0'
-                    allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
-                    referrerpolicy='strict-origin-when-cross-origin' allowfullscreen
-                  />
-                  )
-                : props.token.icon
-            }
-            <Card.Title style={{ textAlign: 'center' }}>
-              <h4>{props.token.ticker}</h4>
-            </Card.Title>
+    <iframe
+      ref={iframeRef}
+      title={title}
+      width="100%"
+      height={`${videoHeight}px`}
+      src={videoURL}
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  );
+};
 
-            <Container>
-              <Row>
-                <Col>
-                  {props.token.name}
-                </Col>
-              </Row>
-              <br />
-
-              <br />
-              <Row>
-                <Col>
-                  <p>View this video on the following platforms:</p>
-                  <ul style={{ textAlign: 'left' }}>
-                    {LinkList}
-                  </ul>
-                </Col>
-              </Row>
-            </Container>
-          </Card.Body>
-        </Card>
-      </Col>
-    </>
-  )
-}
-
-function makeLinkList (links) {
-  console.log('makeLinkList() links: ', links)
-
-  const keys = Object.keys(links)
-  const liAry = []
-  for (let i = 0; i < keys.length; i++) {
-    console.log(`key: ${keys[i]}, value: ${links[keys[i]]}`)
-    if (keys[i] === 'default') continue
-
-    if (typeof links[keys[i]] === 'string') {
-      liAry.push(
-        <li key={keys[i]}>
-          <a href={links[keys[i]]} target='_blank' rel='noreferrer'>
-            {keys[i]}
-          </a>
-        </li>
-      )
-    }
-  }
-
-  return liAry
-}
-
-export default TokenCard
+export default VideoIframe;
