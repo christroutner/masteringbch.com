@@ -69,7 +69,11 @@ function ShowNfts (props) {
               name: nftData.genesisData.name,
               tokenId: nftData.genesisData.tokenId,
               icon: (<img alt='token-icon' src={mutableData.tokenIcon} style={{ width: '300px' }} />),
-              links
+              links,
+              mutableDataUri: nftData.mutableDataUri,
+              immutableDataUri: nftData.immutableDataUri,
+              mutableData: nftData.mutableData,
+              immutableData: nftData.immutableData
             },
             screenSize
           }
@@ -117,15 +121,6 @@ function ShowNfts (props) {
     </>
   )
 }
-
-
-        // <Row>
-        //   <NftCard videoId={videoId} videoTitle={videoTitle} screenSize={screenSize} />
-        // </Row>
-
-
-
-
 
 
 // Retrieve IPFS data from a PSFFPP node.

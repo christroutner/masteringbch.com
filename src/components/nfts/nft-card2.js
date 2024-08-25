@@ -15,7 +15,7 @@ function TokenCard (props) {
 
   console.log('props: ', props)
   const {screenSize, token} = props
-  const { links, tokenId } = token
+  const { links, tokenId, mutableData } = token
 
 
   // Make a list of links <li> where the video can be found on other platforms.
@@ -57,7 +57,14 @@ function TokenCard (props) {
             <Container>
               <Row>
                 <Col>
-                  {props.token.name}
+                  <h6>{props.token.name}</h6>
+                </Col>
+              </Row>
+              <br />
+
+              <Row>
+                <Col>
+                  {mutableData.about}
                 </Col>
               </Row>
               <br />
@@ -82,17 +89,17 @@ function TokenCard (props) {
 
 
 function makeLinkList (links, tokenId) {
-  console.log('makeLinkList() links: ', links)
+  // console.log('makeLinkList() links: ', links)
 
   const keys = Object.keys(links)
   const liAry = []
   for (let i = 0; i < keys.length; i++) {
-    console.log(`key: ${keys[i]}, value: ${links[keys[i]]}`)
+    // console.log(`key: ${keys[i]}, value: ${links[keys[i]]}`)
     if (keys[i] === 'default') continue
     if(keys[i] === 'youtubeEmbed') continue
 
     if (typeof links[keys[i]] === 'string') {
-      console.log(`key: ${keys[i]}-${tokenId}`)
+      // console.log(`key: ${keys[i]}-${tokenId}`)
       liAry.push(
         <li key={`${keys[i]}-${tokenId}`}>
           <a href={links[keys[i]]} target='_blank' rel='noreferrer'>
