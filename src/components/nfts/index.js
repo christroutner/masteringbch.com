@@ -7,18 +7,18 @@ import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
 // Local libraries
-import NftCard from './nft-card2.js'
+import NftCard from './nft-card.js'
 import useScreenSize from '../../hooks/use-screen-size.js'
 
 function ShowNfts (props) {
   const { appData } = props
   const { wallet, allNfts } = appData
 
-  const [nftData, setNftData] = useState([])
+  // const [nftData, setNftData] = useState([])
   const [tokenCards, setTokenCards] = useState([])
   const [isFirstCall, setIsFirstCall] = useState(true)
 
-  const screenSize = useScreenSize();
+  const screenSize = useScreenSize()
 
   useEffect(() => {
     console.log('useEffect() called. appData: ', appData)
@@ -61,7 +61,7 @@ function ShowNfts (props) {
           console.log('Updated nftData: ', nftData)
 
           allNftData.push(nftData)
-          setNftData(allNftData)
+          // setNftData(allNftData)
 
           const propData = {
             token: {
@@ -95,9 +95,6 @@ function ShowNfts (props) {
     }
   })
 
-  const videoId = "ybwuiP6v7hk";
-  const videoTitle = "[전인혁작곡] 야다(Yada) - 약속 (2019 ver)";
-
   return (
     <>
       <Container>
@@ -121,7 +118,6 @@ function ShowNfts (props) {
     </>
   )
 }
-
 
 // Retrieve IPFS data from a PSFFPP node.
 async function getIpfsData (ipfsUri) {
