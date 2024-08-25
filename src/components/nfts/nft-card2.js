@@ -8,80 +8,44 @@
 */
 
 // Global npm libraries
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 
 function TokenCard (props) {
-  const iframeRef = useRef(null)
-  
+
   console.log('props: ', props)
-  const { links } = props.token
+  const {screenSize, token} = props
+  const { links, tokenId } = token
+
 
   // Make a list of links <li> where the video can be found on other platforms.
-  const LinkList = makeLinkList(links)
+  const LinkList = makeLinkList(links, tokenId)
   // console.log('LinkList: ', LinkList)
 
   // State for manipulating iframe size.
 
   const defaultHeight = 495
-  const [videoHeight, setVideoHeight] = useState(
-    iframeRef.current ? iframeRef.current.offsetWidth * 0.5625 : defaultHeight
-  )
-
-  // This callback is executed when the screen size changes.
-  // const handleChangeVideoWidth = useCallback(() => {
-  //   const ratio =
-  //     window.innerWidth > 990
-  //       ? 1.0
-  //       : window.innerWidth > 522
-  //       ? 1.2
-  //       : window.innerWidth > 400
-  //       ? 1.45
-  //       : 1.85;
-  //   const height = iframeRef.current
-  //     ? iframeRef.current.offsetWidth * 0.5625
-  //     : defaultHeight;
-  //   return setVideoHeight(Math.floor(height * ratio));
-  // }, []);
-
-  // This hook is called anytime the screen size changes.
-  // useEffect(() => {
-  //   window.addEventListener("resize", handleChangeVideoWidth);
-  //   const ratio =
-  //     window.innerWidth > 990
-  //       ? 1.0
-  //       : window.innerWidth > 522
-  //       ? 1.2
-  //       : window.innerWidth > 400
-  //       ? 1.45
-  //       : 1.85;
-  //   const height = iframeRef.current
-  //     ? iframeRef.current.offsetWidth * 0.5625
-  //     : defaultHeight;
-  //   setVideoHeight(Math.floor(height * ratio));
-  //   return function cleanup() {
-  //     window.removeEventListener("resize", handleChangeVideoWidth);
-  //   };
-  // }, [videoHeight, handleChangeVideoWidth]);
+  let videoHeight = screenSize.height * 0.5625
+  // const [videoHeight, setVideoHeight] = useState(
+  //   iframeRef.current ? iframeRef.current.offsetWidth * 0.5625 : defaultHeight
+  // )
 
   return (
-    <>
-      <Col xs={12} sm={6} lg={6} style={{ padding: '25px' }}>
+
+      <Col xs={12} sm={12} lg={6} style={{ padding: '25px' }} key={`card-${token.tokenId}`}>
         <Card>
           <Card.Body style={{ textAlign: 'center' }}>
             {
               links.youtubeEmbed
                 ? (
                   <iframe
-                    ref={iframeRef}
                     width='100%'
                     height={`${videoHeight}px`}
-                    src='https://www.youtube.com/embed/RFPIjuypjh4'
-                    title={props.token.name}
-                    frameborder='0'
+                    src={token.links.youtubeEmbed}
+                    title={token.name}
+                    frameBorder='0'
                     allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
-                    referrerpolicy='strict-origin-when-cross-origin'
-                    allowfullscreen
+                    referrerPolicy='strict-origin-when-cross-origin'
                   />
                   )
                 : props.token.icon
@@ -111,11 +75,13 @@ function TokenCard (props) {
           </Card.Body>
         </Card>
       </Col>
-    </>
+
   )
 }
 
-function makeLinkList (links) {
+
+
+function makeLinkList (links, tokenId) {
   console.log('makeLinkList() links: ', links)
 
   const keys = Object.keys(links)
@@ -126,8 +92,9 @@ function makeLinkList (links) {
     if(keys[i] === 'youtubeEmbed') continue
 
     if (typeof links[keys[i]] === 'string') {
+      console.log(`key: ${keys[i]}-${tokenId}`)
       liAry.push(
-        <li key={keys[i]}>
+        <li key={`${keys[i]}-${tokenId}`}>
           <a href={links[keys[i]]} target='_blank' rel='noreferrer'>
             {keys[i]}
           </a>
