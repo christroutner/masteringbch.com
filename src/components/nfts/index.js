@@ -4,7 +4,7 @@
 
 // Global npm libraries
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, ProgressBar, Spinner } from 'react-bootstrap'
 
 // Local libraries
 import NftCard from './nft-card.js'
@@ -18,7 +18,12 @@ function ShowNfts (props) {
   const [tokenCards, setTokenCards] = useState([])
   // const [isFirstCall, setIsFirstCall] = useState(true)
   const [showLoading, setShowLoading] = useState(true)
-  const [tokenLoadingInfo, setTokenLoadingInfo] = useState('')
+  const [tokenLoadingInfo, setTokenLoadingInfo] = useState(
+    <>
+      <p>{`Retrieved data for NFT ${0} of ${allNfts.length}`}</p>
+      <ProgressBar now={0} label={`${0}%`} />
+    </>
+  )
 
   const screenSize = useScreenSize()
 
@@ -84,7 +89,14 @@ function ShowNfts (props) {
 
         tokenCardAry.push(nftCard)
 
-        setTokenLoadingInfo(`Retrieved data for NFT ${i+1} of ${allNfts.length}`)
+        const now = Math.floor(((i + 1) / allNfts.length) * 100)
+
+        setTokenLoadingInfo(
+          <>
+            <p>{`Retrieved data for NFT ${i + 1} of ${allNfts.length}`}</p>
+            <ProgressBar now={now} label={`${now}%`} />
+          </>
+        )
       }
       console.log('tokenCardAry: ', tokenCardAry)
       setShowLoading(false)
@@ -117,9 +129,9 @@ function ShowNfts (props) {
               showLoading
                 ? (
                   <>
-                    <p>
-                      Loading NFT data...
-                    </p>
+                    <span>
+                      Loading NFT data... <Spinner animation='border' />
+                    </span>
                     <p>
                       {tokenLoadingInfo}
                     </p>
