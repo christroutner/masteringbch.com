@@ -33,25 +33,10 @@ function Footer (props) {
     <Container style={{ backgroundColor: '#ddd' }}>
       <Row style={{ padding: '25px' }}>
         <Col>
-          <h6>Site Mirrors</h6>
-          <ul>
-            <li>
-              <a href={config.ghPagesUrl} target='_blank' rel='noreferrer'>GitHub Pages</a>
-            </li>
-            <li>
-              <a href={`https://${ipfsCid}.ipfs.dweb.link/`} target='_blank' rel='noreferrer'>Filecoin</a>
-            </li>
-          </ul>
-        </Col>
-
-        <Col>
           <h6>Source Code</h6>
           <ul>
             <li>
               <a href={config.ghRepo} target='_blank' rel='noreferrer'>GitHub</a>
-            </li>
-            <li>
-              <a href={config.radicleUrl} target='_blank' rel='noreferrer'>Radicle</a>
             </li>
           </ul>
         </Col>

@@ -21,9 +21,10 @@ function NavMenu (props) {
       <Navbar collapseOnSelect expand='xxxl' bg='dark' variant='dark' style={{ paddingRight: '20px' }}>
         <Navbar.Brand href='#home' style={{ paddingLeft: '20px' }}>
           <Image src={Logo} thumbnail width='50' />{' '}
-          PSF Web3 Demo
+          Mastering Bitcoin Cash
         </Navbar.Brand>
 
+        {/*
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='mr-auto'>
@@ -32,6 +33,7 @@ function NavMenu (props) {
             <Nav.Link href='#' onClick={(e) => handleClickEvent(2)}>Placeholder 3</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        */}
       </Navbar>
     </>
   )
