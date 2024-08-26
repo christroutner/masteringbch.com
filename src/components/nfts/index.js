@@ -16,7 +16,9 @@ function ShowNfts (props) {
 
   // const [nftData, setNftData] = useState([])
   const [tokenCards, setTokenCards] = useState([])
-  const [isFirstCall, setIsFirstCall] = useState(true)
+  // const [isFirstCall, setIsFirstCall] = useState(true)
+  const [showLoading, setShowLoading] = useState(true)
+  const [tokenLoadingInfo, setTokenLoadingInfo] = useState('')
 
   const screenSize = useScreenSize()
 
@@ -25,67 +27,70 @@ function ShowNfts (props) {
     console.log('allNfts: ', allNfts)
 
     async function asyncEffect () {
-      if (isFirstCall) {
-        setIsFirstCall(false)
+      // if (isFirstCall) {
+      //   setIsFirstCall(false)
 
-        const tokenCardAry = []
-        const allNftData = []
+      const tokenCardAry = []
+      const allNftData = []
 
-        for (let i = 0; i < allNfts.length; i++) {
+      for (let i = 0; i < allNfts.length; i++) {
         // for (let i = 0; i < 1; i++) {
-          const thisNft = allNfts[i]
-          const nftData = await wallet.getTokenData(thisNft)
-          // console.log('nftData: ', nftData)
+        const thisNft = allNfts[i]
+        const nftData = await wallet.getTokenData(thisNft)
+        // console.log('nftData: ', nftData)
 
-          // Get the mutable data if it exists in the token data.
-          let mutableData = null
-          if (nftData.mutableData) {
-            mutableData = await getIpfsData(nftData.mutableData)
-            // console.log('mutableData: ', mutableData)
-          }
-
-          // Get the immutable data if it exists in the token data.
-          let immutableData = null
-          if (nftData.immutableData) {
-            immutableData = await getIpfsData(nftData.immutableData)
-            // console.log('immutableData: ', immutableData)
-          }
-
-          const links = mutableData.fullSizedUrl ? mutableData.fullSizedUrl : []
-          console.log('links: ', links)
-
-          nftData.mutableDataUri = nftData.mutableData
-          nftData.immutableDataUri = nftData.immutableData
-          nftData.mutableData = mutableData
-          nftData.immutableData = immutableData
-          console.log('Updated nftData: ', nftData)
-
-          allNftData.push(nftData)
-          // setNftData(allNftData)
-
-          const propData = {
-            token: {
-              ticker: nftData.genesisData.ticker,
-              name: nftData.genesisData.name,
-              tokenId: nftData.genesisData.tokenId,
-              icon: (<img alt='token-icon' src={mutableData.tokenIcon} style={{ width: '300px' }} />),
-              links,
-              mutableDataUri: nftData.mutableDataUri,
-              immutableDataUri: nftData.immutableDataUri,
-              mutableData: nftData.mutableData,
-              immutableData: nftData.immutableData
-            },
-            screenSize
-          }
-
-          const nftCard = NftCard(propData)
-
-          tokenCardAry.push(nftCard)
+        // Get the mutable data if it exists in the token data.
+        let mutableData = null
+        if (nftData.mutableData) {
+          mutableData = await getIpfsData(nftData.mutableData)
+          // console.log('mutableData: ', mutableData)
         }
-        console.log('tokenCardAry: ', tokenCardAry)
 
-        setTokenCards(tokenCardAry)
+        // Get the immutable data if it exists in the token data.
+        let immutableData = null
+        if (nftData.immutableData) {
+          immutableData = await getIpfsData(nftData.immutableData)
+          // console.log('immutableData: ', immutableData)
+        }
+
+        const links = mutableData.fullSizedUrl ? mutableData.fullSizedUrl : []
+        console.log('links: ', links)
+
+        nftData.mutableDataUri = nftData.mutableData
+        nftData.immutableDataUri = nftData.immutableData
+        nftData.mutableData = mutableData
+        nftData.immutableData = immutableData
+        console.log('Updated nftData: ', nftData)
+
+        allNftData.push(nftData)
+        // setNftData(allNftData)
+
+        const propData = {
+          token: {
+            ticker: nftData.genesisData.ticker,
+            name: nftData.genesisData.name,
+            tokenId: nftData.genesisData.tokenId,
+            icon: (<img alt='token-icon' src={mutableData.tokenIcon} style={{ width: '300px' }} />),
+            links,
+            mutableDataUri: nftData.mutableDataUri,
+            immutableDataUri: nftData.immutableDataUri,
+            mutableData: nftData.mutableData,
+            immutableData: nftData.immutableData
+          },
+          screenSize
+        }
+
+        const nftCard = NftCard(propData)
+
+        tokenCardAry.push(nftCard)
+
+        setTokenLoadingInfo(`Retrieved data for NFT ${i+1} of ${allNfts.length}`)
       }
+      console.log('tokenCardAry: ', tokenCardAry)
+      setShowLoading(false)
+
+      setTokenCards(tokenCardAry)
+      // }
     }
 
     if (Array.isArray(allNfts) && allNfts.length) {
@@ -93,7 +98,7 @@ function ShowNfts (props) {
     } else {
       console.error('allNfts is empty. Can not load NFT data.')
     }
-  })
+  }, [allNfts])
 
   return (
     <>
@@ -108,6 +113,20 @@ function ShowNfts (props) {
               >Mastering Bitcoin Cash Group Token
               </a>.
             </p>
+            {
+              showLoading
+                ? (
+                  <>
+                    <p>
+                      Loading NFT data...
+                    </p>
+                    <p>
+                      {tokenLoadingInfo}
+                    </p>
+                  </>
+                  )
+                : null
+            }
           </Col>
         </Row>
 
