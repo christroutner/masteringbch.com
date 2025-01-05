@@ -11,11 +11,11 @@ import NftCard from './nft-card.js'
 import useScreenSize from '../../hooks/use-screen-size.js'
 
 function ShowNfts (props) {
-  const { appData } = props
+  const { appData, updateTokenCards, tokenCards } = props
   const { wallet, allNfts } = appData
 
   // const [nftData, setNftData] = useState([])
-  const [tokenCards, setTokenCards] = useState([])
+  // const [tokenCards, setTokenCards] = useState([])
   // const [isFirstCall, setIsFirstCall] = useState(true)
   const [showLoading, setShowLoading] = useState(true)
   const [tokenLoadingInfo, setTokenLoadingInfo] = useState(
@@ -34,6 +34,15 @@ function ShowNfts (props) {
     async function asyncEffect () {
       // if (isFirstCall) {
       //   setIsFirstCall(false)
+
+
+      // Use existing data if available.
+      if (tokenCards.length) {
+        // updateTokenCards(tokenCards)
+        console.log('tokenCards already exist. Returning.')
+        setShowLoading(false)
+        return
+      }
 
       const tokenCardAry = []
       const allNftData = []
@@ -101,7 +110,7 @@ function ShowNfts (props) {
       console.log('tokenCardAry: ', tokenCardAry)
       setShowLoading(false)
 
-      setTokenCards(tokenCardAry)
+      updateTokenCards(tokenCardAry)
       // }
     }
 

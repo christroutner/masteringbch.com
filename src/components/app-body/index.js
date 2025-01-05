@@ -7,7 +7,7 @@
 */
 
 // Global npm libraries
-import React from 'react'
+import React, { useState } from 'react'
 
 // Local libraries
 // import GetBalance from '../balance'
@@ -21,28 +21,25 @@ function AppBody (props) {
   // Dependency injection through props
   const appData = props.appData
   const menuState = props.menuState
-  // console.log('AppBody() menuState: ', menuState)
 
+  // State - Allows children pages to pass their state up to his parent.
+  const [tokenCards, setTokenCards] = useState([])
+
+  function updateTokenCards (tokenCards) {
+    setTokenCards(tokenCards)
+  }
+
+  // Choose which view to display based on the menuState.
   function chooseView (menuState) {
-    // console.log(`chooseView() menuState: ${menuState}`)
-
-    // return (<ShowNfts appData={appData} />)
-
     switch (menuState) {
       case 0:
-        // return (<GetBalance wallet={appData.wallet} />)
-        return (<ShowNfts appData={appData} />)
+        return (<ShowNfts appData={appData} updateTokenCards={updateTokenCards} tokenCards={tokenCards} />)
       case 1:
         return (<Support appData={appData} />)
-      //   return (<Placeholder2 appData={appData} />)
-      // case 2:
-      //   return (<Placeholder3 />)
-    
-        // Special Views
+
       case 100:
         return (<ServerSelectView appData={appData} />)
       default:
-        // return (<GetBalance wallet={appData.wallet} />)
         return (<ShowNfts appData={appData} />)
     }
   }
