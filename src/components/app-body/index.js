@@ -13,8 +13,9 @@ import React from 'react'
 // import GetBalance from '../balance'
 // import Placeholder2 from '../placeholder2'
 // import Placeholder3 from '../placeholder3'
-// import ServerSelectView from '../servers/select-server-view'
+import ServerSelectView from '../servers/select-server-view'
 import ShowNfts from '../nfts'
+import Support from '../../pages/support'
 
 function AppBody (props) {
   // Dependency injection through props
@@ -25,22 +26,25 @@ function AppBody (props) {
   function chooseView (menuState) {
     // console.log(`chooseView() menuState: ${menuState}`)
 
-    return (<ShowNfts appData={appData} />)
+    // return (<ShowNfts appData={appData} />)
 
-    // switch (menuState) {
-    //   case 0:
-    //     return (<GetBalance wallet={appData.wallet} />)
-    //   case 1:
-    //     return (<Placeholder2 appData={appData} />)
-    //   case 2:
-    //     return (<Placeholder3 />)
-    //
-    //     // Special Views
-    //   case 100:
-    //     return (<ServerSelectView appData={appData} />)
-    //   default:
-    //     return (<GetBalance wallet={appData.wallet} />)
-    // }
+    switch (menuState) {
+      case 0:
+        // return (<GetBalance wallet={appData.wallet} />)
+        return (<ShowNfts appData={appData} />)
+      case 1:
+        return (<Support appData={appData} />)
+      //   return (<Placeholder2 appData={appData} />)
+      // case 2:
+      //   return (<Placeholder3 />)
+    
+        // Special Views
+      case 100:
+        return (<ServerSelectView appData={appData} />)
+      default:
+        // return (<GetBalance wallet={appData.wallet} />)
+        return (<ShowNfts appData={appData} />)
+    }
   }
 
   return (
