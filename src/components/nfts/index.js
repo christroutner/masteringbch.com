@@ -4,7 +4,8 @@
 
 // Global npm libraries
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, ProgressBar, Spinner } from 'react-bootstrap'
+import { Container, Row, Col, ProgressBar, Spinner, Image } from 'react-bootstrap'
+import { BsFillPlayBtnFill } from 'react-icons/bs'
 
 // Local libraries
 import NftCard from './nft-card.js'
@@ -79,12 +80,35 @@ function ShowNfts (props) {
         allNftData.push(nftData)
         // setNftData(allNftData)
 
+        // const icon = (
+        //   <div style={{ position: 'relative', display: 'inline-block' }}>
+        //     <Image 
+        //       alt='token-icon'
+        //       src={mutableData.tokenIcon}
+        //       style={{ width: '300px' }}
+        //       fluid 
+        //     />
+        //     <BsFillPlayBtnFill 
+        //       style={{
+        //         position: 'absolute',
+        //         top: '50%',
+        //         left: '50%',
+        //         transform: 'translate(-50%, -50%)',
+        //         fontSize: '3rem',
+        //         color: 'white',
+        //         cursor: 'pointer'
+        //       }}
+        //     />
+        //   </div>
+        // )
+        
         const propData = {
           token: {
             ticker: nftData.genesisData.ticker,
             name: nftData.genesisData.name,
             tokenId: nftData.genesisData.tokenId,
             icon: (<img alt='token-icon' src={mutableData.tokenIcon} style={{ width: '300px' }} />),
+            // icon: mutableData.tokenIcon,
             links,
             mutableDataUri: nftData.mutableDataUri,
             immutableDataUri: nftData.immutableDataUri,
@@ -134,6 +158,7 @@ function ShowNfts (props) {
               >Mastering Bitcoin Cash Group Token
               </a>.
             </p>
+            <BsFillPlayBtnFill />
             {
               showLoading
                 ? (

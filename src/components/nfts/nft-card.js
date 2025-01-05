@@ -11,6 +11,9 @@
 import React from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 
+// Local components
+import TokenIcon from './token-icon'
+
 function TokenCard (props) {
   console.log('props: ', props)
   const { screenSize, token } = props
@@ -22,26 +25,44 @@ function TokenCard (props) {
 
   const videoHeight = screenSize.height * 0.5625
 
+
+  let videoIframe = null
+  if (links.youtubeEmbed) {
+    videoIframe = (
+      <iframe
+        width='100%'
+        height={`${videoHeight}px`}
+        src={token.links.youtubeEmbed}
+        title={token.name}
+        frameBorder='0'
+        allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
+        referrerPolicy='strict-origin-when-cross-origin'
+      />
+    )
+  }
+
   return (
 
     <Col xs={12} sm={12} lg={6} style={{ padding: '25px' }} key={`card-${token.tokenId}`}>
       <Card>
         <Card.Body style={{ textAlign: 'center' }}>
           {
-              links.youtubeEmbed
-                ? (
-                  <iframe
-                    width='100%'
-                    height={`${videoHeight}px`}
-                    src={token.links.youtubeEmbed}
-                    title={token.name}
-                    frameBorder='0'
-                    allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
-                    referrerPolicy='strict-origin-when-cross-origin'
-                  />
-                  )
-                : props.token.icon
-            }
+            <TokenIcon token={token} videoIframe={videoIframe} />
+              // links.youtubeEmbed
+              //   ? 
+              //     props.token.icon
+              //     : (
+              //       <iframe
+              //         width='100%'
+              //         height={`${videoHeight}px`}
+              //         src={token.links.youtubeEmbed}
+              //         title={token.name}
+              //         frameBorder='0'
+              //         allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
+              //         referrerPolicy='strict-origin-when-cross-origin'
+              //       />
+              //     )
+          }
           <Card.Title style={{ textAlign: 'center' }}>
             <h4>{props.token.ticker}</h4>
           </Card.Title>
