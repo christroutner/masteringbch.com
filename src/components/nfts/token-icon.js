@@ -5,50 +5,55 @@
     When the icon is clicked, the icon is replaced with the embedded (iframe) YouTube video.
 */
 
-import React from 'react'
+// Global imports
+import React, { useState } from 'react'
 import { Image } from 'react-bootstrap'
 import { BsFillPlayBtnFill } from 'react-icons/bs'
 
 function TokenIcon(props) {
 
   const { token, videoIframe } = props
-
+  
+  // Switch the icon to the iframe when the icon is clicked.
   const showIframe = function() {
-    console.log('showIframe')
+    console.log('showIframe called')
+    setIcon(videoIframe)
+  }
+  
+  // Default icon.
+  let initialIcon = (<Image 
+    alt='token-icon'
+    src={token.mutableData.tokenIcon}
+    style={{ width: '300px', border: '1px solid black' }}
+    fluid 
+  />)
+
+  // Hover a play button over the icon if there is a YouTube video associated with the token.
+  if(videoIframe) {
+    initialIcon = (
+      <div style={{ position: 'relative', display: 'inline-block' }} onClick={showIframe}>
+        <Image 
+          alt='token-icon'
+          src={token.mutableData.tokenIcon}
+          style={{ width: '300px', border: '1px solid black' }}
+          fluid 
+        />
+        <BsFillPlayBtnFill 
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: '3rem',
+            color: 'red',
+            cursor: 'pointer'
+          }}
+        />
+      </div>
+    )
   }
 
-  // Default icon.
-  let icon = <Image 
-        alt='token-icon'
-        src={token.mutableData.tokenIcon}
-        style={{ width: '300px', border: '1px solid black' }}
-        fluid 
-      />
-  
-  // Hover a play button over the icon if there is a YouTube video associated with the token.
-  // if(videoIframe) {
-  //   icon = (
-  //     <div style={{ position: 'relative', display: 'inline-block' }} onClick={showIframe}>
-  //       <Image 
-  //         alt='token-icon'
-  //         src={token.mutableData.tokenIcon}
-  //         style={{ width: '300px' }}
-  //         fluid 
-  //       />
-  //       <BsFillPlayBtnFill 
-  //         style={{
-  //           position: 'absolute',
-  //           top: '16%',
-  //           left: '50%',
-  //           transform: 'translate(-50%, -50%)',
-  //           fontSize: '3rem',
-  //           color: 'black',
-  //           cursor: 'pointer'
-  //         }}
-  //       />
-  //     </div>
-  //   )
-  // }
+  const [icon, setIcon] = useState(initialIcon)
 
 
   return (
