@@ -5,7 +5,6 @@
 // Global npm libraries
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, ProgressBar, Spinner, Image } from 'react-bootstrap'
-import { BsFillPlayBtnFill } from 'react-icons/bs'
 
 // Local libraries
 import NftCard from './nft-card.js'
@@ -15,9 +14,6 @@ function ShowNfts (props) {
   const { appData, updateTokenCards, tokenCards } = props
   const { wallet, allNfts } = appData
 
-  // const [nftData, setNftData] = useState([])
-  // const [tokenCards, setTokenCards] = useState([])
-  // const [isFirstCall, setIsFirstCall] = useState(true)
   const [showLoading, setShowLoading] = useState(true)
   const [tokenLoadingInfo, setTokenLoadingInfo] = useState(
     <>
@@ -35,7 +31,6 @@ function ShowNfts (props) {
     async function asyncEffect () {
       // if (isFirstCall) {
       //   setIsFirstCall(false)
-
 
       // Use existing data if available.
       if (tokenCards.length) {
@@ -78,30 +73,7 @@ function ShowNfts (props) {
         console.log('Updated nftData: ', nftData)
 
         allNftData.push(nftData)
-        // setNftData(allNftData)
 
-        // const icon = (
-        //   <div style={{ position: 'relative', display: 'inline-block' }}>
-        //     <Image 
-        //       alt='token-icon'
-        //       src={mutableData.tokenIcon}
-        //       style={{ width: '300px' }}
-        //       fluid 
-        //     />
-        //     <BsFillPlayBtnFill 
-        //       style={{
-        //         position: 'absolute',
-        //         top: '50%',
-        //         left: '50%',
-        //         transform: 'translate(-50%, -50%)',
-        //         fontSize: '3rem',
-        //         color: 'white',
-        //         cursor: 'pointer'
-        //       }}
-        //     />
-        //   </div>
-        // )
-        
         const propData = {
           token: {
             ticker: nftData.genesisData.ticker,
@@ -158,7 +130,6 @@ function ShowNfts (props) {
               >Mastering Bitcoin Cash Group Token
               </a>.
             </p>
-            <BsFillPlayBtnFill />
             {
               showLoading
                 ? (

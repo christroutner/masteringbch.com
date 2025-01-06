@@ -24,16 +24,15 @@ function NavMenu (props) {
           Mastering Bitcoin Cash
         </Navbar.Brand>
 
-        
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='mr-auto'>
             <Nav.Link href='#' onClick={(e) => handleClickEvent(0)}>Mastering BCH</Nav.Link>
             <Nav.Link href='#' onClick={(e) => handleClickEvent(1)}>Support</Nav.Link>
-            {/*<Nav.Link href='#' onClick={(e) => handleClickEvent(2)}>Placeholder 3</Nav.Link> */}
+            {/* <Nav.Link href='#' onClick={(e) => handleClickEvent(2)}>Placeholder 3</Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
-        
+
       </Navbar>
     </>
   )

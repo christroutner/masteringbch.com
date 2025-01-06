@@ -23,46 +23,12 @@ function TokenCard (props) {
   const LinkList = makeLinkList(links, tokenId)
   // console.log('LinkList: ', LinkList)
 
-  const videoHeight = screenSize.height * 0.5625
-
-
-  let videoIframe = null
-  if (links.youtubeEmbed) {
-    videoIframe = (
-      <iframe
-        width='100%'
-        height={`${videoHeight}px`}
-        src={token.links.youtubeEmbed}
-        title={token.name}
-        frameBorder='0'
-        allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
-        referrerPolicy='strict-origin-when-cross-origin'
-      />
-    )
-  }
-
   return (
 
     <Col xs={12} sm={12} lg={6} style={{ padding: '25px' }} key={`card-${token.tokenId}`}>
       <Card>
         <Card.Body style={{ textAlign: 'center' }}>
-          {
-            <TokenIcon token={token} videoIframe={videoIframe} />
-              // links.youtubeEmbed
-              //   ? 
-              //     props.token.icon
-              //     : (
-              //       <iframe
-              //         width='100%'
-              //         height={`${videoHeight}px`}
-              //         src={token.links.youtubeEmbed}
-              //         title={token.name}
-              //         frameBorder='0'
-              //         allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
-              //         referrerPolicy='strict-origin-when-cross-origin'
-              //       />
-              //     )
-          }
+          <TokenIcon token={token} screenSize={screenSize} />
           <Card.Title style={{ textAlign: 'center' }}>
             <h4>{props.token.ticker}</h4>
           </Card.Title>

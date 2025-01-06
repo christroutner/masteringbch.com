@@ -10,35 +10,54 @@ import React, { useState } from 'react'
 import { Image } from 'react-bootstrap'
 import { BsFillPlayBtnFill } from 'react-icons/bs'
 
-function TokenIcon(props) {
+function TokenIcon (props) {
+  const { token, screenSize } = props
+  const { links } = token
 
-  const { token, videoIframe } = props
-  
   // Switch the icon to the iframe when the icon is clicked.
-  const showIframe = function() {
+  const showIframe = function () {
     console.log('showIframe called')
     setIcon(videoIframe)
   }
-  
+
   // Default icon.
-  let initialIcon = (<Image 
-    alt='token-icon'
-    src={token.mutableData.tokenIcon}
-    style={{ width: '300px', border: '1px solid black' }}
-    fluid 
-  />)
+  let initialIcon = (
+    <Image
+      alt='token-icon'
+      src={token.mutableData.tokenIcon}
+      style={{ width: '300px', border: '1px solid black' }}
+      fluid
+    />
+  )
+
+  const videoHeight = screenSize.height * 0.5625
+
+  let videoIframe = null
+  if (links.youtubeEmbed) {
+    videoIframe = (
+      <iframe
+        width='100%'
+        height={`${videoHeight}px`}
+        src={token.links.youtubeEmbed}
+        title={token.name}
+        frameBorder='0'
+        allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
+        referrerPolicy='strict-origin-when-cross-origin'
+      />
+    )
+  }
 
   // Hover a play button over the icon if there is a YouTube video associated with the token.
-  if(videoIframe) {
+  if (videoIframe) {
     initialIcon = (
       <div style={{ position: 'relative', display: 'inline-block' }} onClick={showIframe}>
-        <Image 
+        <Image
           alt='token-icon'
           src={token.mutableData.tokenIcon}
           style={{ width: '300px', border: '1px solid black' }}
-          fluid 
+          fluid
         />
-        <BsFillPlayBtnFill 
+        <BsFillPlayBtnFill
           style={{
             position: 'absolute',
             top: '50%',
@@ -54,7 +73,6 @@ function TokenIcon(props) {
   }
 
   const [icon, setIcon] = useState(initialIcon)
-
 
   return (
     <div>
