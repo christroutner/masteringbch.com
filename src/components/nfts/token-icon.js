@@ -20,11 +20,19 @@ function TokenIcon (props) {
     setIcon(videoIframe)
   }
 
+  console.log('token: ', token)
+
+  let tokenIconUrl = token.mutableData.tokenIcon
+  if(tokenIconUrl && tokenIconUrl.includes('pin.fullstack.cash')) {
+    tokenIconUrl = tokenIconUrl.replace('pin.fullstack.cash', 'free-bch.fullstack.cash')
+  }
+  console.log('tokenIconUrl: ', tokenIconUrl)
+
   // Default icon.
   let initialIcon = (
     <Image
       alt='token-icon'
-      src={token.mutableData.tokenIcon}
+      src={tokenIconUrl}
       style={{ width: '300px', border: '1px solid black' }}
       fluid
     />
@@ -53,7 +61,7 @@ function TokenIcon (props) {
       <div style={{ position: 'relative', display: 'inline-block' }} onClick={showIframe}>
         <Image
           alt='token-icon'
-          src={token.mutableData.tokenIcon}
+          src={tokenIconUrl}
           style={{ width: '300px', border: '1px solid black' }}
           fluid
         />

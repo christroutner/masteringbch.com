@@ -53,7 +53,7 @@ function ShowNfts (props) {
         let mutableData = null
         if (nftData.mutableData) {
           mutableData = await getIpfsData(nftData.mutableData)
-          // console.log('mutableData: ', mutableData)
+          console.log('mutableData: ', mutableData)
         }
 
         // Get the immutable data if it exists in the token data.
@@ -158,16 +158,20 @@ function ShowNfts (props) {
 // Retrieve IPFS data from a PSFFPP node.
 async function getIpfsData (ipfsUri) {
   try {
-    if (!ipfsUri.includes('ipfs://')) { return 'not available' }
+    // if (!ipfsUri.includes('ipfs://')) { return 'not available' }
 
-    const ipfsCid = ipfsUri.slice(7)
+    let ipfsCid = ipfsUri
+    if(ipfsUri.includes('ipfs://')) {
+      ipfsCid = ipfsUri.slice(7)
+    }
 
     // const url = `https://files.tokentiger.com/ipfs/download/${ipfsCid}/data.json`
-    const url = `https://pin.fullstack.cash/ipfs/download/${ipfsCid}`
+    const url = `https://free-bch.fullstack.cash/ipfs/view/${ipfsCid}`
     console.log('url: ', url)
 
     const response = await fetch(url)
     const ipfsData = await response.json()
+    console.log('ipfsData: ', ipfsData)
 
     return ipfsData
   } catch (err) {

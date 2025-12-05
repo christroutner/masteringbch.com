@@ -77,10 +77,15 @@ class AsyncLoad {
 
   // Given an IPFS URI, this will download and parse the JSON data.
   async getIpfsData (ipfsUri) {
-    const cid = ipfsUri.slice(7)
+    let cid = ipfsUri
+    if (ipfsUri.includes('ipfs://')) {
+      cid = ipfsUri.slice(7)
+    }
 
     // const downloadUrl = `https://${cid}.ipfs.dweb.link/data.json`
-    const downloadUrl = `https://pin.fullstack.cash/ipfs/download/${cid}`
+    let downloadUrl = `https://pin.fullstack.cash/ipfs/download/${cid}`
+    downloadUrl = `https://free-bch.fullstack.cash/ipfs/view/${cid}`
+    console.log('downloadUrl: ', downloadUrl)
 
     const response = await axios.get(downloadUrl)
     const data = response.data
